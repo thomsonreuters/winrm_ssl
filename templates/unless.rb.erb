@@ -1,0 +1,31 @@
+require "puppet"
+require "openssl"
+require "open3"
+
+Puppet.initialize_settings
+
+file_hostcert = File.read(Puppet[:hostcert])
+openssl_cert = OpenSSL::X509::Certificate.new(file_hostcert)
+intended_thumbprint = (OpenSSL::Digest::SHA1.new(openssl_cert.to_der)).to_s
+
+var_cmd = "winrm.cmd enumerate winrm/config/listener"
+var_rgx = /CertificateThumbprint = ([0-9A-Fa-f]{40,40})$/
+
+stdin, stdout, stderr, wait_thr = Open3.popen3(var_cmd)
+var_rc = wait_thr.value.exitstatus
+var_stdout = stdout.read
+
+rgx_mth = var_rgx.match(var_stdout)
+if (rgx_mth != nil)
+  active_thumbprint = rgx_mth[1]
+else
+  active_thumbprint = ""
+end
+
+if (intended_thumbprint.casecmp(active_thumbprint) == 0)
+  var_rc = 0
+else
+  var_rc = 1
+end
+
+exit var_rc
