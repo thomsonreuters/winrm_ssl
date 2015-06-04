@@ -1,4 +1,4 @@
-# == Class: winrm
+# == Class: winrm_ssl
 #
 # Setup WinRM over HTTPS utilising Puppet's certificates.
 #
@@ -10,15 +10,15 @@
 #
 # === Examples
 #
-#  class { winrm:
+#  class { winrm_ssl:
 #  }
 #
-#  class { winrm:
+#  class { winrm_ssl:
 #    maxmemorypershellmb => 5120,
 #    maxtimeoutms        => 600000,
 #  }
 #
-#  class { winrm:
+#  class { winrm_ssl:
 #    auth_basic     => false,
 #    disable_http   => false,
 #    manage_service => false,
@@ -31,10 +31,10 @@
 # === Copyright
 #
 #
-class winrm($auth_basic = true, $disable_http = true, $manage_service = true, $maxmemorypershellmb = 1024, $maxtimeoutms = 60000) {
+class winrm_ssl($auth_basic = true, $disable_http = true, $manage_service = true, $maxmemorypershellmb = 1024, $maxtimeoutms = 60000) {
 
-  $unless_script = template('winrm_https_puppetca/unless.rb.erb')
-  $create_script = template('winrm_https_puppetca/create.rb.erb')
+  $unless_script = template('winrm_ssl/unless.rb.erb')
+  $create_script = template('winrm_ssl/create.rb.erb')
 
   exec{'winrm_create_listener_https':
     command     => "ruby -e '${create_script}'",
