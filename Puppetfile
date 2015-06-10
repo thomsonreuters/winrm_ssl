@@ -1,3 +1,6 @@
 mod 'winrm_ssl',
   :git => 'git@github.com:thomsonreuters/winrm_ssl.git',
-  :ref => '0.0.5'
+  :tag => '0.0.6'
+mod 'hieradata',
+  :git => 'git@github.com:thomsonreuters/winrm_ssl.git',
+  :branch => 'hieradata'
