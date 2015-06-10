@@ -1,3 +1,3 @@
 mod 'winrm_ssl',
   :git => 'git@github.com:thomsonreuters/winrm_ssl.git',
-  :ref => '0.0.3'
+  :ref => '0.0.5'
