@@ -70,7 +70,7 @@ class winrm_ssl($auth_basic = true, $disable_http = true, $manage_service = true
     exec {'winrm_set_auth_basic':
       command => "winrm.cmd set winrm/config/service/auth @{Basic=\"${auth_basic}\"}",
       path    => ['c:/windows/system32'],
-      unless  => "winrm.cmd get winrm/config/service/auth | findstr /e /c:\"Basic = ${auth_basic}\"",
+      unless  => "winrm.cmd get winrm/config/service/auth | findstr /c:\"Basic = ${auth_basic}\"",
     }
 
     exec {'winrm_set_maxmemorypershellmb':
